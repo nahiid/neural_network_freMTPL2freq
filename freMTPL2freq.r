@@ -64,3 +64,10 @@ train$VehBrand <- as.numeric(train$VehBrand)
 # Remove any rows with missing or invalid values
 train <- na.omit(train)
 
+# Check the formula for correctness and completeness
+formula <- as.formula("AvgSalary ~ IDpol + ClaimNb + Exposure + Area + VehPower + VehAge + DrivAge + BonusMalus + VehBrand")
+all.vars(formula)
+
+# Create the neural network using the training set
+set.seed(123)
+nn <- neuralnet(formula, data = train, hidden = c(5,3), linear.output = FALSE)
