@@ -71,3 +71,9 @@ all.vars(formula)
 # Create the neural network using the training set
 set.seed(123)
 nn <- neuralnet(formula, data = train, hidden = c(5,3), linear.output = FALSE)
+
+# Check the structure and weights of the neural network
+str(nn)
+nn$weights
+
+
