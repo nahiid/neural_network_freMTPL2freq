@@ -61,3 +61,6 @@ summary(train)
 train$Area <- as.numeric(train$Area)
 train$VehBrand <- as.numeric(train$VehBrand)
 
+# Remove any rows with missing or invalid values
+train <- na.omit(train)
+
