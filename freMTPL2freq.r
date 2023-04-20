@@ -44,3 +44,10 @@ set.seed(123)
 trainIndex <- createDataPartition(data$AvgSalary, p = 0.8, list = FALSE)
 train <- data[trainIndex, ]
 valid <- data[-trainIndex, ]
+
+# Scale the input variables to have zero mean and unit variance
+preProcValues <- preProcess(train[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")], method = c("center", "scale"))
+
+train[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")] <- predict(preProcValues, train[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")])
+valid[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")] <- predict(preProcValues, valid[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")])
+
