@@ -31,5 +31,10 @@ get_avg_salary <- function(area) {
 data$AvgSalary <- sapply(data$Area, get_avg_salary)
 
 # save the updated dataset
-write.csv(data, "freMTPL2freq_updated.csv", row.names = FALSE)
+write.csv(data, "./data/freMTPL2freq_updated.csv", row.names = FALSE)
 
+library(caret)
+library(neuralnet)
+
+# Load the updated dataset
+data <- read.csv("./data/freMTPL2freq_updated.csv")
