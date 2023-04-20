@@ -38,3 +38,9 @@ library(neuralnet)
 
 # Load the updated dataset
 data <- read.csv("./data/freMTPL2freq_updated.csv")
+
+# Split the dataset into training and validation sets
+set.seed(123)
+trainIndex <- createDataPartition(data$AvgSalary, p = 0.8, list = FALSE)
+train <- data[trainIndex, ]
+valid <- data[-trainIndex, ]
