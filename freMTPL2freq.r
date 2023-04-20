@@ -76,4 +76,5 @@ nn <- neuralnet(formula, data = train, hidden = c(5,3), linear.output = FALSE)
 str(nn)
 nn$weights
 
-
+valid$Area <- as.numeric(valid$Area)
+valid$VehBrand <- as.numeric(valid$VehBrand)
