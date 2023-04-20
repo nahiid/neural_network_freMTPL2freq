@@ -51,3 +51,13 @@ preProcValues <- preProcess(train[,c("IDpol","ClaimNb","Exposure","Area","VehPow
 train[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")] <- predict(preProcValues, train[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")])
 valid[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")] <- predict(preProcValues, valid[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus","VehBrand","AvgSalary")])
 
+# Check the data types of each column
+str(train)
+
+# Check for missing or invalid values
+summary(train)
+
+# Convert any non-numeric columns to numeric
+train$Area <- as.numeric(train$Area)
+train$VehBrand <- as.numeric(train$VehBrand)
+
