@@ -172,6 +172,9 @@ library(neuralnet)
 #                       prior = normal(0, 1), seed = 12345)
 
 
+
+library(tagi)
+
 # Package loading:
 require(tagi)
 require(mvtnorm)
@@ -200,10 +203,10 @@ NN <- list(
   "sv" = 0.32 * matrix(1L, nrow = 1, ncol = ny), # Observations standard deviation
   "maxEpoch" = 40, # maximal number of learning epoch
   "hiddenLayerActivation" = "relu", # Activation function for hidden layer {'tanh','sigm','cdf','relu','softplus'}
-  "outputActivation" = "linear", # Activation function for hidden layer {'linear', 'tanh','sigm','cdf','relu'}
+  "outputActivation" = "softplus", # Activation function for hidden layer {'linear', 'tanh','sigm','cdf','relu'}
   "ratio" = 0.8, # Ratio between training set and validation set
   "numSplits" = 20, # Number of splits
-  "task" = "classification" # Task regression or classification
+  "task" = "classification" # Task classification or regression
 )
 
 
@@ -216,4 +219,14 @@ NN$factor4Wp = 0.25 * matrix(c(1/NN$nodes[1],1/NN$nodes[2]), nrow = 1, ncol = 2)
 
 trainIdx <- NULL
 testIdx <- NULL
+
+### Experiment
+
+# Run the neural network model and collect metrics at each epoch.
+out_classification <- classification(NN, x, y, trainIdx, testIdx)
+mp = out_classification[[1]]
+Sp = out_classification[[2]]
+metric = out_classification[[3]]
+time = out_classification[[4]]
+
 
