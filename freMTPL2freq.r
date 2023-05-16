@@ -172,5 +172,36 @@ bnn_model <- stan_glm(formula, data = train, family = gaussian(),
                       prior = normal(0, 1), seed = 12345)
 
 
+# Package loading:
+require(tagi)
+require(mvtnorm)
 
+#set seed
+set.seed(123)
 
+# Specific Initialization
+# Define the neural network properties, such as the number of epochs, activation function, etc.
+
+nobs <- nrow(data)
+ncvr <- 45
+# Input features
+x <- data[,1:ncvr]
+# Output targets
+y <- matrix(data[,46], ncol = 1)
+nx <- ncol(x)
+ny <- ncol(y)
+
+NN <- list(
+  "nx" = nx, # Number of input covariates
+  "ny" = ny, # Number of output responses
+  "batchSizeList" = c(1, 1, 1), # Batch size [train, val, test]
+  "nodes" = c(nx, 100, ny), # Number of nodes for each layer
+  "sx" = NULL, # Input standard deviation
+  "sv" = 0.32 * matrix(1L, nrow = 1, ncol = ny), # Observations standard deviation
+  "maxEpoch" = 40, # maximal number of learning epoch
+  "hiddenLayerActivation" = "relu", # Activation function for hidden layer {'tanh','sigm','cdf','relu','softplus'}
+  "outputActivation" = "linear", # Activation function for hidden layer {'linear', 'tanh','sigm','cdf','relu'}
+  "ratio" = 0.8, # Ratio between training set and validation set
+  "numSplits" = 20, # Number of splits
+  "task" = "regression" # Task regression or classification
+)
