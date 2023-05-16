@@ -142,34 +142,34 @@ head(data)
 library(caret)
 library(neuralnet)
 
-# Split the dataset into training and validation sets
-set.seed(123)
-trainIndex <- createDataPartition(data$AvgSalary, p = 0.8, list = FALSE)
-train <- data[trainIndex, ]
-valid <- data[-trainIndex, ]
+# # Split the dataset into training and validation sets
+# set.seed(123)
+# trainIndex <- createDataPartition(data$AvgSalary, p = 0.8, list = FALSE)
+# train <- data[trainIndex, ]
+# valid <- data[-trainIndex, ]
 
-# Check the data types of each column
-str(train)
+# # Check the data types of each column
+# str(train)
 
-# Check for missing or invalid values
-summary(train)
+# # Check for missing or invalid values
+# summary(train)
 
-# Load the required libraries
-library(rstan)
-library(brms)
-library(rstanarm)
+# # Load the required libraries
+# library(rstan)
+# library(brms)
+# library(rstanarm)
 
-# Define the formula for the model
-formula <- bf(AvgSalary ~ Area_A + Area_B + Area_C + Area_D + Area_E + Area_F +
-                B12 + B6 + B3 + B2 + B5 + B10 + B14 + B13 + B4 + B1 + B11 +
-                R82 + R22 + R72 + R31 + R91 + R52 + R93 + R11 + R24 + R94 +
-                R83 + R54 + R26 + R53 + R73 + R42 + R25 + R21 + R41 + R43 + R74 + R23 + 
-                BonusMalus + Density + DrivAge + VehAge + Exposure + VehPower + ClaimNb)
+# # Define the formula for the model
+# formula <- bf(AvgSalary ~ Area_A + Area_B + Area_C + Area_D + Area_E + Area_F +
+#                 B12 + B6 + B3 + B2 + B5 + B10 + B14 + B13 + B4 + B1 + B11 +
+#                 R82 + R22 + R72 + R31 + R91 + R52 + R93 + R11 + R24 + R94 +
+#                 R83 + R54 + R26 + R53 + R73 + R42 + R25 + R21 + R41 + R43 + R74 + R23 + 
+#                 BonusMalus + Density + DrivAge + VehAge + Exposure + VehPower + ClaimNb)
 
-# Define the glm model
-bnn_model <- stan_glm(formula, data = train, family = gaussian(),
-                      prior_intercept = normal(0, 10),
-                      prior = normal(0, 1), seed = 12345)
+# # Define the glm model
+# bnn_model <- stan_glm(formula, data = train, family = gaussian(),
+#                       prior_intercept = normal(0, 10),
+#                       prior = normal(0, 1), seed = 12345)
 
 
 # Package loading:
@@ -205,3 +205,15 @@ NN <- list(
   "numSplits" = 20, # Number of splits
   "task" = "classification" # Task regression or classification
 )
+
+
+# initialize weights and biases and parameters for the split between training and testing set.
+
+# Factor for initializing bias
+NN$factor4Bp = 0.01 * matrix(1L, nrow = 1, ncol = length(NN$nodes) - 1) 
+# Factor for initializing weights
+NN$factor4Wp = 0.25 * matrix(c(1/NN$nodes[1],1/NN$nodes[2]), nrow = 1, ncol = 2) 
+
+trainIdx <- NULL
+testIdx <- NULL
+
