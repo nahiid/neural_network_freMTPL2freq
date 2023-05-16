@@ -203,5 +203,5 @@ NN <- list(
   "outputActivation" = "linear", # Activation function for hidden layer {'linear', 'tanh','sigm','cdf','relu'}
   "ratio" = 0.8, # Ratio between training set and validation set
   "numSplits" = 20, # Number of splits
-  "task" = "regression" # Task regression or classification
+  "task" = "classification" # Task regression or classification
 )
