@@ -154,51 +154,21 @@ str(train)
 # Check for missing or invalid values
 summary(train)
 
+# Load the required libraries
+library(rstan)
+library(brms)
+library(rstanarm)
+
+# Define the formula for the model
+formula <- bf(AvgSalary ~ Area_A + Area_B + Area_C + Area_D + Area_E + Area_F +
+                B12 + B6 + B3 + B2 + B5 + B10 + B14 + B13 + B4 + B1 + B11 +
+                R82 + R22 + R72 + R31 + R91 + R52 + R93 + R11 + R24 + R94 +
+                R83 + R54 + R26 + R53 + R73 + R42 + R25 + R21 + R41 + R43 + R74 + R23 + 
+                BonusMalus + Density + DrivAge + VehAge + Exposure + VehPower + ClaimNb)
+
+# Define the Bayesian neural network model
+bnn_model <- stan_glm(formula, data = train, family = gaussian(),
+                      prior_intercept = normal(0, 10),
+                      prior = normal(0, 1), seed = 12345)
 
 
-
-
-# Check the formula for correctness and completeness
-formula <- as.formula("AvgSalary ~ IDpol + ClaimNb + Exposure + Area + VehPower + VehAge + DrivAge + BonusMalus ")
-all.vars(formula)
-
-# Create the neural network using the training set
-set.seed(123)
-nn <- neuralnet(formula, data = train, hidden = c(5,3), linear.output = FALSE)
-
-# Check the structure and weights of the neural network
-str(nn)
-nn$weights
-
-# Make predictions on the validation set
-predictions <- predict(nn, valid[,c("IDpol","ClaimNb","Exposure","Area","VehPower","VehAge","DrivAge","BonusMalus")])
-
-# Calculate the mean squared error between the predicted and actual values
-mse <- mean((predictions - valid$AvgSalary)^2)
-
-# Calculate the root mean squared error
-rmse <- sqrt(mse)
-
-# Print the root mean squared error
-cat("Root Mean Squared Error:", rmse, "\n")
-
-
-library(mltools)
-library(data.table)
-
-newdata <- one_hot(as.data.table(data))
-data$Variable <- as.factor(data$Variable)
-newdata <- one_hot(as.data.table(data))
-
-area_matrix <- matrix(0, nrow = nrow(df), ncol = length(valid$Area))
-
-# Loop through the area values and set the corresponding column in the matrix to 1
-for (i in 1:length(area_values)) {
-  area_matrix[, i] <- as.integer(df$area == area_values[i])
-}
-
-# Bind the matrix of one-hot encoded columns to the original dataframe
-df <- cbind(df, area_matrix)
-
-# Remove the original 'area' column
-df$area <- NULL
