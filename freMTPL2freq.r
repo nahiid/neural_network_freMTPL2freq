@@ -166,9 +166,11 @@ formula <- bf(AvgSalary ~ Area_A + Area_B + Area_C + Area_D + Area_E + Area_F +
                 R83 + R54 + R26 + R53 + R73 + R42 + R25 + R21 + R41 + R43 + R74 + R23 + 
                 BonusMalus + Density + DrivAge + VehAge + Exposure + VehPower + ClaimNb)
 
-# Define the Bayesian neural network model
+# Define the glm model
 bnn_model <- stan_glm(formula, data = train, family = gaussian(),
                       prior_intercept = normal(0, 10),
                       prior = normal(0, 1), seed = 12345)
+
+
 
 
