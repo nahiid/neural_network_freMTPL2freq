@@ -139,4 +139,4 @@ data <- data %>% rename(R82 = '1', R22 = '2', R72 = '3', R31 = '4', R91 = '5', R
 # Check renaming
 head(data)
 
-
+write.csv(data, "./data/freMTPL2freq_updated.csv", row.names = FALSE)
