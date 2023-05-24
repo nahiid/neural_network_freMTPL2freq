@@ -2,14 +2,6 @@
 data <- read.csv("./data/freMTPL2freq_updated.csv")
 head(data)
 
-# Select 500 rows from the original dataset
-# sample_data <- data[1:500, ]
-
-# Write the selected data to a new dataset
-# write.csv(sample_data, "sample_data.csv", row.names = FALSE)
-
-# data <- read.csv("./sample_data.csv")
-
 library(tagi)
 # Package loading:
 require(mvtnorm)
@@ -30,13 +22,8 @@ y <- as.matrix(data$AvgSalary)
 nx <- ncol(x)
 ny <- 1
 
-
 x <- sapply(x, as.numeric)
-
-
 library(dplyr)
-
-
 
 NN <- list(
   "nx" = nx, # Number of input covariates
